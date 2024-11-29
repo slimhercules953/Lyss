@@ -37,11 +37,6 @@ module.exports = async (client) => {
   commandFiles.map((value) => {
     const file = require(value);
     const directory = path.basename(path.dirname(value)); // Gets the parent directory name
-
-    // if (file.name) {
-    //   const properties = { directory, ...file };
-    //   client.commands.set(file.name, properties);
-  //   }
   });
 
   // Events

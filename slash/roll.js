@@ -7,13 +7,13 @@ module.exports = {
         {
             name: 'minimum',
             description: 'The minimum number of the roll.',
-            type: '4',
+            type: 4,
             required: true,
         },
         {
             name: 'maximum',
             description: 'The maximum number of the roll.',
-            type: '4',
+            type: 4,
             required: true,
         },
     ],
@@ -35,9 +35,10 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setTitle('🎲 Custom Dice Roll 🎲')
             .setDescription(
-                `${interaction.user.username}, you rolled a number between **${min}** and **${max}**.\nYou got: **${rolledNumber}**! https://www.animatedimages.org/data/media/710/animated-dice-image-0103.gif`
+                `${interaction.user.username}, you rolled a number between **${min}** and **${max}**.\nYou got: **${rolledNumber}**!`
             )
-            .setColor('#00FF00')
+            .setImage("https://www.animatedimages.org/data/media/710/animated-dice-image-0103.gif")
+            .setColor('#37115a')
             .setTimestamp();
 
         // Respond to the interaction
