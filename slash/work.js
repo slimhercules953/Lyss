@@ -50,7 +50,7 @@ module.exports = {
             .setTitle('Work Successful')
             .setDescription(`You worked as a ${job} and earned ${earnings} coins!`)
             .addField('New Wallet Balance', newBalance.toString(), true)
-            .setColor('#00FF00');
+            .setColor('#37115a');
 
         await interaction.followUp({ embeds: [embed] });
     }

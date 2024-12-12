@@ -40,7 +40,7 @@ module.exports = {
             const embed = new MessageEmbed()
                 .setTitle('Debt Updated')
                 .setDescription(`${targetUser.username} now owes you ${newDebtAmount}.`)
-                .setColor('#FF0000');
+                .setColor('#37115a');
 
             return interaction.followUp({ embeds: [embed] });
         } else {
@@ -48,7 +48,7 @@ module.exports = {
             const embed = new MessageEmbed()
                 .setTitle('Debt Information')
                 .setDescription(`${targetUser.username} owes you ${existingDebt}.`)
-                .setColor('#FF9900');
+                .setColor('#37115a');
 
             return interaction.followUp({ embeds: [embed] });
         }

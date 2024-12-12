@@ -1,4 +1,4 @@
-const { CommandInteraction, Client, MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { CommandInteraction, Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require('discord.js');
 
 module.exports = {
     name: 'claim',
@@ -21,23 +21,23 @@ module.exports = {
         }
 
         // Create the claim embed
-        const claimEmbed = new MessageEmbed()
+        const claimEmbed = new EmbedBuilder()
             .setTitle('Claim Request')
             .setDescription(`${targetUser.username}, ${interaction.user.username} wants to claim you!`)
-            .setColor('#FFD700')
+            .setColor('#37115a')
             .setTimestamp();
 
         // Create the claim button row
-        const row = new MessageActionRow().addComponents(
-            new MessageButton()
+        const row = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
                 .setCustomId('claim_accept')
                 .setLabel('Accept Claim')
-                .setStyle('SUCCESS')
+                .setStyle('Success')
                 .setEmoji('✅'),
-            new MessageButton()
+            new ButtonBuilder()
                 .setCustomId('claim_decline')
                 .setLabel('Decline Claim')
-                .setStyle('DANGER')
+                .setStyle('Danger')
                 .setEmoji('❌')
         );
 
@@ -52,7 +52,7 @@ module.exports = {
             try {
                 if (buttonInteraction.customId === 'claim_accept') {
                     // Handle claim acceptance
-                    const acceptedEmbed = new MessageEmbed()
+                    const acceptedEmbed = new EmbedBuilder()
                         .setTitle('Claim Accepted')
                         .setDescription(`${targetUser.username} accepted the claim from ${interaction.user.username}!`)
                         .setColor('#00FF00')
@@ -63,7 +63,7 @@ module.exports = {
 
                 } else if (buttonInteraction.customId === 'claim_decline') {
                     // Handle claim decline
-                    const declinedEmbed = new MessageEmbed()
+                    const declinedEmbed = new EmbedBuilder()
                         .setTitle('Claim Declined')
                         .setDescription(`${targetUser.username} declined the claim request from ${interaction.user.username}.`)
                         .setColor('#FF0000')
@@ -80,7 +80,7 @@ module.exports = {
         collector.on('end', async (collected, reason) => {
             // If the collector ended due to timeout, update the message to reflect that.
             if (reason === 'time' && claimMessage.editable) {
-                const timedOutEmbed = new MessageEmbed()
+                const timedOutEmbed = new EmbedBuilder()
                     .setTitle('Claim Expired')
                     .setDescription(`${targetUser.username} did not respond in time.`)
                     .setColor('#808080')

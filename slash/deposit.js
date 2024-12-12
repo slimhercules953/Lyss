@@ -49,7 +49,7 @@ module.exports = {
             .setDescription(`You have successfully deposited ${amount} Hypno Dollars into your bank.`)
             .addField('New Wallet Balance', newWalletBalance.toString(), true)
             .addField('New Bank Balance', newBankBalance.toString(), true)
-            .setColor('#00FF00');
+            .setColor('#37115a');
 
         // Send the embed as a reply
         await interaction.followUp({ embeds: [embed] });

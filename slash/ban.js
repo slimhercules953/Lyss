@@ -50,7 +50,7 @@ module.exports = {
                     { name: 'Reason', value: reason },
                     { name: 'Banned By', value: interaction.user.tag }
                 )
-                .setColor('Red')
+                .setColor('#37115a')
                 .setTimestamp();
 
             return interaction.followUp({ embeds: [embed] });

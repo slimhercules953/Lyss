@@ -32,7 +32,7 @@ module.exports = {
         const embed = new MessageEmbed()
             .setTitle('Job Selected')
             .setDescription(`You have chosen to be a ${job}. Use /work every 60 minutes to earn money.`)
-            .setColor('#00FF00');
+            .setColor('#37115a');
 
         await interaction.followUp({ embeds: [embed] });
     }

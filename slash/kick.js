@@ -47,7 +47,7 @@ module.exports = {
                 .setTitle('User Kicked')
                 .setDescription(`${targetUser.tag} has been kicked from the server.`)
                 .addField('Reason', reason)
-                .setColor('#FF0000')
+                .setColor('#37115a')
                 .setTimestamp();
 
             return interaction.followUp({ embeds: [embed] });
