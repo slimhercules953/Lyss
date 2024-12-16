@@ -1,5 +1,6 @@
-const { CommandInteraction, Client, MessageEmbed } = require('discord.js');
-// const db = require('quick.db');
+const { CommandInteraction, Client, EmbedBuilder } = require('discord.js');
+const fs = require('fs');
+const path = './balances.json'; // Path to the balances JSON file
 
 module.exports = {
     name: 'deposit',
@@ -14,18 +15,26 @@ module.exports = {
         const amountInput = interaction.options.getString('amount'); // Get amount as a string
         const userId = interaction.user.id;
 
-        let walletBalance = db.get(`coins.${userId}`) || 0;
-        let bankBalance = db.get(`bank.${userId}`) || 0;
+        // Read balances from the JSON file
+        let balancesData = readBalances();
+
+        // Ensure the user's data exists
+        if (!balancesData[userId]) {
+            balancesData[userId] = { wallet: 0, bank: 0 }; // Initialize the user's data
+        }
+
+        let walletBalance = balancesData[userId].wallet;
+        let bankBalance = balancesData[userId].bank;
         let amount;
 
-        // If user says "all" or "max", set the amount to their entire wallet balance
+        // Handle "all" or "max" input
         if (amountInput.toLowerCase() === 'all' || amountInput.toLowerCase() === 'max') {
             amount = walletBalance;
         } else {
             amount = parseInt(amountInput); // Try to convert input to a number
         }
 
-        // Check for valid amount
+        // Validate the deposit amount
         if (isNaN(amount) || amount <= 0) {
             return await interaction.followUp('Please enter a valid amount greater than zero.');
         }
@@ -35,23 +44,42 @@ module.exports = {
             return await interaction.followUp(`You don't have enough Hypno Dollars in your wallet! Your current wallet balance is ${walletBalance}.`);
         }
 
-        // Update wallet and bank balances
-        db.subtract(`coins.${userId}`, amount);
-        db.add(`bank.${userId}`, amount);
+        // Update balances
+        balancesData[userId].wallet -= amount;
+        balancesData[userId].bank += amount;
+
+        // Save the updated data to the file
+        saveBalances(balancesData);
 
         // Get updated balances
-        const newWalletBalance = db.get(`coins.${userId}`);
-        const newBankBalance = db.get(`bank.${userId}`);
+        const newWalletBalance = balancesData[userId].wallet;
+        const newBankBalance = balancesData[userId].bank;
 
         // Create an embed for the result
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle('Deposit Successful')
             .setDescription(`You have successfully deposited ${amount} Hypno Dollars into your bank.`)
-            .addField('New Wallet Balance', newWalletBalance.toString(), true)
-            .addField('New Bank Balance', newBankBalance.toString(), true)
+            .addFields(
+                { name: 'New Wallet Balance', value: `${newWalletBalance}`, inline: true },
+                { name: 'New Bank Balance', value: `${newBankBalance}`, inline: true }
+            )
             .setColor('#37115a');
 
         // Send the embed as a reply
         await interaction.followUp({ embeds: [embed] });
     }
 };
+
+// Function to read balances data from the JSON file
+function readBalances() {
+    if (fs.existsSync(path)) {
+        return JSON.parse(fs.readFileSync(path, 'utf8'));
+    } else {
+        return {}; // Return an empty object if the file doesn't exist
+    }
+}
+
+// Function to save balances data to the JSON file
+function saveBalances(data) {
+    fs.writeFileSync(path, JSON.stringify(data, null, 2), 'utf8');
+}
