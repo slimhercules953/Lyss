@@ -11,6 +11,7 @@ slash/test.js
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 balances.json
 pet.json
+claim.json
 # Runtime data
 pids
 *.pid

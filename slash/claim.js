@@ -1,4 +1,6 @@
 const { CommandInteraction, Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require('discord.js');
+const fs = require('fs');
+const path = './claim.json';
 
 module.exports = {
     name: 'claim',
@@ -51,6 +53,15 @@ module.exports = {
         collector.on('collect', async (buttonInteraction) => {
             try {
                 if (buttonInteraction.customId === 'claim_accept') {
+                    // Save claim data to claim.json
+                    let claimsData = readClaimsData();
+
+                    // Update claim data
+                    claimsData[claimerId] = targetUser.id;
+
+                    // Save the updated data back to the file
+                    saveClaimsData(claimsData);
+
                     // Handle claim acceptance
                     const acceptedEmbed = new EmbedBuilder()
                         .setTitle('Claim Accepted')
@@ -91,3 +102,17 @@ module.exports = {
         });
     }
 };
+
+// Helper function to read claims data from claim.json
+function readClaimsData() {
+    if (fs.existsSync(path)) {
+        return JSON.parse(fs.readFileSync(path, 'utf8'));
+    } else {
+        return {};
+    }
+}
+
+// Helper function to save claims data to claim.json
+function saveClaimsData(data) {
+    fs.writeFileSync(path, JSON.stringify(data, null, 2), 'utf8');
+}

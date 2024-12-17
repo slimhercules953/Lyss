@@ -48,6 +48,7 @@ client.on("interactionCreate", async (interaction) => {
     }
 
     if (interaction.isButton()) {
+        if (interaction.customId.startsWith('pet_') || interaction.customId.startsWith('buy_')) {
 
         const userId = interaction.user.id;
         const petsData = getPetsData();
@@ -94,6 +95,7 @@ client.on("interactionCreate", async (interaction) => {
             savePetsData(petsData);
             return interaction.reply({ content: `You fed your ${pet.name}. Hunger: ${pet.hunger}/100 🍖`, ephemeral: true });
         }
+    }
     }
     // // Context Menu Handling
     // if (interaction.isContextMenu()) {
