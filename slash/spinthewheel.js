@@ -29,6 +29,7 @@ module.exports = {
         // Create an embed to show the result
         const embed = new EmbedBuilder()
             .setTitle('🎡 Spin the Wheel!')
+            .setImage("https://media1.tenor.com/m/7T24taTZIWQAAAAd/spinning.gif")
             .setDescription(`Entries: ${entries.join(', ')}
 
 **🎉 The wheel landed on: \`${selectedEntry}\`!**`)

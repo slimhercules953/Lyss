@@ -12,6 +12,7 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 balances.json
 pet.json
 claim.json
+warning.json
 # Runtime data
 pids
 *.pid
